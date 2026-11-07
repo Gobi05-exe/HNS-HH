@@ -1,0 +1,31 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# Large model checkpoints (>700 MB)
+experiments/models/*.pt
+experiments/models/*.pth
+
+# Large preprocessed PyTorch dataset splits (>340 MB)
+dataset/*.pt
+
+# Intermediate LaTeX compilation artifacts (keep source, bbl, bst, pdf)
+paper/MTRPP_Paper/*.aux
+paper/MTRPP_Paper/*.log
+paper/MTRPP_Paper/*.out
+paper/MTRPP_Paper/*.blg
+paper/MTRPP_Paper/*.synctex.gz
+paper/MTRPP_Paper/*.fls
+paper/MTRPP_Paper/*.fdb_latexmk
+
+# Compressed archive
+paper/MTRPP_Paper.zip
+
+# System & IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
