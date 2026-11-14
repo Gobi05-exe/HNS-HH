@@ -1,26 +1,60 @@
-# MTRPP High-Performance Experimental Suite
+# HNS-HH for the Multiple Traveling Repairman Problem with Profits (MTRPP)
 
-This directory contains the fully automated, decoupled experimental pipeline for the GNN-guided ALNS Solver.
+This repository contains the implementation, experiment artifacts, analysis scripts, and manuscript sources for the **Hybrid Neuro-Symbolic Hyper-Heuristic (HNS-HH)** framework for the Multiple Traveling Repairman Problem with Profits (MTRPP).
 
-## Deployment Instructions
+The codebase includes:
+- the HNS-HH solver and training/inference pipeline,
+- scripts for evaluation, ablation/sensitivity experiments, and figure/table generation,
+- recorded experimental results used in the manuscript, and
+- the LaTeX manuscript source (`paper/MTRPP_Paper/`).
 
-**Step 1:** Copy this entire `MTRPP_Experiments` folder to your target high-performance Windows system.
-**Step 2:** Ensure your Python virtual environment is set up (the batch scripts assume a `venv` exists inside this directory. You can create it using `python -m venv venv` and install requirements).
+## Repository structure
 
-## 🏃 Execution 
+- `mtrpp_local.py` — core solver/model/training and evaluation entry points.
+- `scripts/` — experiment runners, analysis utilities, and figure-generation scripts.
+- `dataset/` — dataset splits/preprocessed inputs used by the pipeline (large `.pt` files may be excluded by `.gitignore`).
+- `experiments/`
+  - `experiments/results/` — recorded JSON/CSV/TXT result artifacts and analysis outputs used for figures/tables.
+  - `experiments/models/` — model checkpoints (ignored by default except as configured).
+  - `experiments/logs/`, `experiments/route_plots/`, `experiments/results/plots/` — logs and generated visualizations.
+- `paper/MTRPP_Paper/` — manuscript source (`sn-article.tex`), bibliography, figures, and compiled PDF.
+- `run_training_only.*`, `run_analysis_only.*`, `run_experiments.*` — convenience scripts for staged/full runs.
+- `requirements.txt` — Python dependencies.
 
-You can execute the pipeline in stages or all at once:
+## Setup
 
-1. **`run_training_only.bat`**: 
-   Starts the 48-hour overnight training phase from scratch. It aggressively tracks validation loss and incorporates early stopping if the GNN proves it can beat the ground-truth benchmark consistently.
-   
-2. **`run_analysis_only.bat`**: 
-   Executes the exhaustive 8-phase reporting suite using the best checkpoint. It exports deep JSON structural data (containing exact routes) alongside statistical `.csv` files for:
-   - Benchmark vs Avci/Lu heuristics
-   - Parameter sensitivity (MSHGSM parameters like $T_{itr}$)
-   - Ablation studies (stripping out components one by one)
-   - Scalability checks
-   - Non-parametric statistical tests
+1. Create and activate a Python environment (Python 3.10+ recommended).
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Ensure required dataset files/checkpoints are available in `dataset/` and `experiments/models/` as needed for your workflow.
 
-3. **`run_experiments.bat`**:
-   Runs Phase 1 and Phase 2 back-to-back automatically.
+> Note: large model checkpoints and dataset binaries may be omitted from version control via `.gitignore`.
+
+## Usage
+
+Typical entry points:
+
+- **Training:** `run_training_only.bat` / `run_training_only.sh` (or invoke the training routine in `mtrpp_local.py`).
+- **Analysis / evaluation:** `run_analysis_only.bat` / `run_analysis_only.sh`.
+- **End-to-end:** `run_experiments.bat` / `run_experiments.sh`.
+- **Figure/analysis regeneration:** scripts in `scripts/` (e.g. `comprehensive_analysis.py`, `comprehensive_analysis_part2.py`, `generate_*_plot.py`, `fix_fig12_heatmap.py`) consume recorded artifacts in `experiments/results/`.
+
+Refer to script headers and command-line arguments for configuration details.
+
+## Manuscript
+
+- Source: `paper/MTRPP_Paper/sn-article.tex` (Springer Nature `sn-jnl`, `sn-mathphys-num`).
+- Compile (from `paper/MTRPP_Paper/`): `pdflatex` → `bibtex` → `pdflatex` → `pdflatex`.
+
+## Data and code availability
+
+- **Benchmark instances:** from the cited MTRPP literature benchmark sets.
+- **Recorded results:** included under `experiments/results/` (and derived analysis plots) as used by the manuscript.
+- **Code:** https://github.com/<username>/<repository> (to be made public)
+
+## Notes
+
+- Experimental figures and tables in the manuscript are grounded in artifacts under `experiments/results/` and the corresponding generation scripts in `scripts/`.
+- This repository is organized to keep core source, reproducibility scripts, recorded results, and manuscript materials; transient caches and large binaries are excluded where appropriate.
