@@ -15,7 +15,7 @@ import matplotlib.gridspec as gridspec
 # Paths
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CSV_PATH = os.path.join(BASE_DIR, 'experiments', 'results', 'param_sensitivity.csv')
-PAPER_IMG_PATH = os.path.join(BASE_DIR, 'paper', 'MTRPP_Paper', 'images', 'image_9.png')
+PAPER_IMG_PATH = os.path.join(BASE_DIR, 'paper', 'MTRPP_Paper', 'images', 'fig14_param_heatmap.png')
 ANALYSIS_IMG_PATH = os.path.join(BASE_DIR, 'experiments', 'results', 'analysis_plots', 'sec6_param_heatmap.png')
 
 def load_data():
