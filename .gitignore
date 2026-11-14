@@ -14,18 +14,24 @@ experiments/models/*.pth
 dataset/*.pt
 dataset/*.pkl
 
-# LaTeX intermediate artifacts (keep source/bib/bst/cls/figures/pdf)
-paper/MTRPP_Paper/*.aux
-paper/MTRPP_Paper/*.log
-paper/MTRPP_Paper/*.out
-paper/MTRPP_Paper/*.blg
-paper/MTRPP_Paper/*.synctex.gz
-paper/MTRPP_Paper/*.fls
-paper/MTRPP_Paper/*.fdb_latexmk
-*.bak
+# Manuscript and paper artifacts
+paper/
+
+# Experiment artifacts / intermediate results
+experiments/logs/
+experiments/results/
+experiments/route_plots/
+
+# Text/report artifacts (keep dependency manifest)
+*.txt
+!requirements.txt
+
+# PDFs (e.g. reference papers)
+*.pdf
 
 # Archives / local artifacts
 *.zip
+*.bak
 
 # OS / IDE
 .DS_Store
