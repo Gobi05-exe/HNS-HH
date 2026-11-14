@@ -52,7 +52,7 @@ Refer to script headers and command-line arguments for configuration details.
 
 - **Benchmark instances:** from the cited MTRPP literature benchmark sets.
 - **Recorded results:** included under `experiments/results/` (and derived analysis plots) as used by the manuscript.
-- **Code:** https://github.com/<username>/<repository> (to be made public)
+- **Code:** https://github.com/Gobi05-exe/HNS-HH
 
 ## Notes
 
