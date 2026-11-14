@@ -6,12 +6,19 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from collections import defaultdict
 
+try:
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+except Exception:
+    pass
+
 RESULTS = os.path.join(os.path.dirname(__file__), '..', 'experiments', 'results')
 PLOTS = os.path.join(RESULTS, 'analysis_plots')
+PAPER = os.path.join(os.path.dirname(__file__), '..', 'paper', 'MTRPP_Paper', 'images')
 os.makedirs(PLOTS, exist_ok=True)
 
-plt.rcParams.update({'font.size': 10, 'figure.dpi': 150, 'savefig.bbox': 'tight',
-                      'axes.grid': True, 'grid.alpha': 0.3})
+plt.rcParams.update({'font.size': 11, 'figure.dpi': 150, 'savefig.dpi': 300, 'savefig.bbox': 'tight',
+                      'axes.grid': True, 'grid.alpha': 0.3, 'axes.titlesize': 12, 'axes.labelsize': 11,
+                      'xtick.labelsize': 9, 'ytick.labelsize': 9, 'legend.fontsize': 9})
 
 import re
 def safe_float(v):
@@ -93,7 +100,7 @@ def section1_metrics(data):
     axes[1].axvline(np.mean(total_gap_av), color='red', ls='--', label=f'Mean={np.mean(total_gap_av):.3f}%')
     axes[1].legend()
     plt.suptitle('Section 1: Gap Distribution', fontweight='bold')
-    plt.tight_layout(); plt.savefig(os.path.join(PLOTS, 'sec1_gap_distribution.png')); plt.close()
+    plt.tight_layout(); plt.savefig(os.path.join(PLOTS, 'sec1_gap_distribution.png')); plt.savefig(os.path.join(PAPER, 'fig05_gap_distributions.png')); plt.close()
     return instances
 
 # ============================================================
@@ -151,11 +158,11 @@ def section2_benchmark():
     fig, ax = plt.subplots(figsize=(16, 6))
     colors = ['green' if g == 0 else 'steelblue' if g < 1 else 'coral' for g in gb]
     ax.bar(range(len(names)), gb, color=colors, edgecolor='white', alpha=0.85)
-    ax.set_xticks(range(len(names))); ax.set_xticklabels(names, rotation=75, ha='right', fontsize=7)
-    ax.set_ylabel('Gap to UB (%)'); ax.set_title('Section 2: Per-Instance Gap to Upper Bound (B_sol)')
+    ax.set_xticks(range(len(names))); ax.set_xticklabels(names, rotation=90, ha='center', fontsize=6)
+    ax.set_ylabel('Gap to UB (%)'); ax.set_title('Per-Instance Gap to Upper Bound (B_sol)')
     ax.axhline(np.mean(gb), color='red', ls='--', lw=1.5, label=f'Mean={np.mean(gb):.3f}%')
     ax.legend(); plt.tight_layout()
-    plt.savefig(os.path.join(PLOTS, 'sec2_benchmark_gaps.png')); plt.close()
+    plt.savefig(os.path.join(PLOTS, 'sec2_benchmark_gaps.png')); plt.savefig(os.path.join(PAPER, 'fig04_instance_gap_bars.png')); plt.close()
 
 # ============================================================
 # SECTION 3: SCALABILITY ANALYSIS
@@ -190,12 +197,12 @@ def section3_scalability(data):
     axes[0].scatter(all_n, all_gap, c='steelblue', alpha=0.7, edgecolors='white', s=50)
     axes[0].set_xlabel('Problem Size (n)'); axes[0].set_ylabel('Gap to UB (%)')
     axes[0].set_title('Gap vs Problem Size')
-    
+
     axes[1].scatter(all_n, all_t, c='coral', alpha=0.7, edgecolors='white', s=50)
     axes[1].set_xlabel('Problem Size (n)'); axes[1].set_ylabel('Avg Runtime (s)')
     axes[1].set_title('Runtime vs Problem Size')
-    plt.suptitle('Section 3: Scalability Analysis', fontweight='bold')
-    plt.tight_layout(); plt.savefig(os.path.join(PLOTS, 'sec3_scalability.png')); plt.close()
+    plt.suptitle('Scalability Analysis', fontweight='bold')
+    plt.tight_layout(); plt.savefig(os.path.join(PLOTS, 'sec3_scalability.png')); plt.savefig(os.path.join(PAPER, 'fig06_scalability_scatter.png')); plt.close()
     
     # Plot: Grouped bar chart
     grp_names = [g for g in ['Small (n≤20)', 'Medium (n≤100)', 'Large (n>100)'] if g in groups]
@@ -210,11 +217,11 @@ def section3_scalability(data):
     bars2 = ax2.bar(x + w/2, avg_times, w, label='Avg Runtime (s)', color='coral', alpha=0.85)
     ax2.set_ylabel('Runtime (s)', color='coral')
     ax1.set_xticks(x); ax1.set_xticklabels(grp_names)
-    ax1.set_title('Section 3: Performance by Size Group')
+    ax1.set_title('Performance by Size Group')
     lines1, labels1 = ax1.get_legend_handles_labels()
     lines2, labels2 = ax2.get_legend_handles_labels()
     ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper left')
-    plt.tight_layout(); plt.savefig(os.path.join(PLOTS, 'sec3_grouped_bars.png')); plt.close()
+    plt.tight_layout(); plt.savefig(os.path.join(PLOTS, 'sec3_grouped_bars.png')); plt.savefig(os.path.join(PAPER, 'fig07_performance_size_group.png')); plt.close()
 
 # ============================================================
 # SECTION 4: STATISTICAL TESTS (Friedman + Nemenyi)
@@ -292,11 +299,11 @@ def section4_statistical(eval_files):
     colors = plt.cm.Set2(np.linspace(0, 1, len(labels)))
     bars = ax.bar(labels, avg_ranks, color=colors, edgecolor='white', alpha=0.85)
     ax.set_ylabel('Average Rank (lower=better)')
-    ax.set_title('Section 4: Average Ranks Across Iteration Configs')
+    ax.set_title('Average Ranks Across Iteration Configs')
     for bar, val in zip(bars, avg_ranks):
         ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.05, f'{val:.2f}',
                 ha='center', va='bottom', fontweight='bold')
-    plt.tight_layout(); plt.savefig(os.path.join(PLOTS, 'sec4_avg_ranks.png')); plt.close()
+    plt.tight_layout(); plt.savefig(os.path.join(PLOTS, 'sec4_avg_ranks.png')); plt.savefig(os.path.join(PAPER, 'fig09_friedman_ranks.png')); plt.close()
 
 # ============================================================
 # SECTION 5: ABLATION STUDY
@@ -332,9 +339,9 @@ def section5_ablation():
     bars = ax.barh(range(len(names)), drops, color=colors, edgecolor='white', alpha=0.85)
     ax.set_yticks(range(len(names))); ax.set_yticklabels(names)
     ax.set_xlabel('Performance Drop (%)')
-    ax.set_title('Section 5: Ablation Study - Component Importance')
+    ax.set_title('Ablation Study - Component Importance')
     ax.invert_yaxis()
-    plt.tight_layout(); plt.savefig(os.path.join(PLOTS, 'sec5_ablation.png')); plt.close()
+    plt.tight_layout(); plt.savefig(os.path.join(PLOTS, 'sec5_ablation.png')); plt.savefig(os.path.join(PAPER, 'fig12_ablation_component_importance.png')); plt.close()
 
 # ============================================================
 # MAIN

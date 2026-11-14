@@ -6,12 +6,19 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from collections import defaultdict
 
+try:
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+except Exception:
+    pass
+
 RESULTS = os.path.join(os.path.dirname(__file__), '..', 'experiments', 'results')
 PLOTS = os.path.join(RESULTS, 'analysis_plots')
+PAPER = os.path.join(os.path.dirname(__file__), '..', 'paper', 'MTRPP_Paper', 'images')
 os.makedirs(PLOTS, exist_ok=True)
 
-plt.rcParams.update({'font.size': 10, 'figure.dpi': 150, 'savefig.bbox': 'tight',
-                      'axes.grid': True, 'grid.alpha': 0.3})
+plt.rcParams.update({'font.size': 11, 'figure.dpi': 150, 'savefig.dpi': 300, 'savefig.bbox': 'tight',
+                      'axes.grid': True, 'grid.alpha': 0.3, 'axes.titlesize': 12, 'axes.labelsize': 11,
+                      'xtick.labelsize': 9, 'ytick.labelsize': 9, 'legend.fontsize': 9})
 
 import re as _re
 def safe_float(v):
@@ -100,8 +107,8 @@ def section6_param_sensitivity():
     for idx in range(n_params, 6):
         axes[idx].set_visible(False)
 
-    plt.suptitle('Section 6: Parameter Sensitivity Analysis', fontweight='bold', fontsize=14)
-    plt.tight_layout(); plt.savefig(os.path.join(PLOTS, 'sec6_param_sensitivity.png')); plt.close()
+    plt.suptitle('Parameter Sensitivity Analysis', fontweight='bold', fontsize=14)
+    plt.tight_layout(); plt.savefig(os.path.join(PLOTS, 'sec6_param_sensitivity.png')); plt.savefig(os.path.join(PAPER, 'fig13_param_sensitivity_analysis.png')); plt.close()
 
     # Plot: Heatmap of normalized AV_sol across parameters
     fig, ax = plt.subplots(figsize=(10, 6))
@@ -184,8 +191,8 @@ def section7_robustness():
     ax.set_xlabel('Coefficient of Variation (%)'); ax.set_title('Top 20: CoeffVar')
     ax.invert_yaxis()
 
-    plt.suptitle('Section 7: Robustness Analysis', fontweight='bold')
-    plt.tight_layout(); plt.savefig(os.path.join(PLOTS, 'sec7_robustness.png')); plt.close()
+    plt.suptitle('Robustness Analysis', fontweight='bold')
+    plt.tight_layout(); plt.savefig(os.path.join(PLOTS, 'sec7_robustness.png')); plt.savefig(os.path.join(PAPER, 'fig15_robustness_top20.png')); plt.close()
 
     # Plot: Stability pie chart
     fig, ax = plt.subplots(figsize=(6, 6))
@@ -202,8 +209,8 @@ def section7_robustness():
     if nonzero:
         ax.pie([x[0] for x in nonzero], labels=[x[1] for x in nonzero],
                colors=[x[2] for x in nonzero], autopct='%1.1f%%', startangle=90)
-    ax.set_title('Section 7: Solution Stability Distribution')
-    plt.tight_layout(); plt.savefig(os.path.join(PLOTS, 'sec7_stability_pie.png')); plt.close()
+    ax.set_title('Solution Stability Distribution')
+    plt.tight_layout(); plt.savefig(os.path.join(PLOTS, 'sec7_stability_pie.png')); plt.savefig(os.path.join(PAPER, 'fig16_solution_stability.png')); plt.close()
 
 # ============================================================
 # SECTION 8: EFFICIENCY
@@ -246,8 +253,8 @@ def section8_efficiency():
         for i, v in enumerate(total_rt):
             axes[1].text(i, v + 50, f'{v:.0f}s', ha='center', fontweight='bold')
 
-        plt.suptitle('Section 8: Efficiency Analysis', fontweight='bold')
-        plt.tight_layout(); plt.savefig(os.path.join(PLOTS, 'sec8_efficiency.png')); plt.close()
+        plt.suptitle('Efficiency Analysis', fontweight='bold')
+        plt.tight_layout(); plt.savefig(os.path.join(PLOTS, 'sec8_efficiency.png')); plt.savefig(os.path.join(PAPER, 'fig08_efficiency_runtime.png')); plt.close()
 
 # ============================================================
 # SECTION 9: SUMMARY RESULTS
@@ -362,8 +369,8 @@ def section9_summary():
         patch.set_facecolor(color); patch.set_alpha(0.6)
     ax.set_ylabel('Runtime (s)'); ax.set_title('Runtime Distribution by Size')
 
-    plt.suptitle('Section 9: Comprehensive Summary', fontweight='bold', fontsize=14)
-    plt.tight_layout(); plt.savefig(os.path.join(PLOTS, 'sec9_summary.png')); plt.close()
+    plt.suptitle('Comprehensive Summary', fontweight='bold', fontsize=14)
+    plt.tight_layout(); plt.savefig(os.path.join(PLOTS, 'sec9_summary.png')); plt.savefig(os.path.join(PAPER, 'fig11_results_summary.png')); plt.close()
 
 # ============================================================
 # MAIN
