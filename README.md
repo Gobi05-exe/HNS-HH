@@ -6,7 +6,6 @@ This repository contains the source code and scripts for the **Hybrid Neuro-Symb
 
 - **Core implementation:** `mtrpp_local.py` — solver, model, training, and evaluation entry points.
 - **Experiment and analysis scripts:** `scripts/` — evaluation, ablation/sensitivity experiments, statistical analysis, and figure/summary generation utilities.
-- **Run scripts:** `run_training_only.*`, `run_analysis_only.*`, `run_experiments.*` — convenience entry points for staged or end-to-end runs.
 - **Dependencies:** `requirements.txt`.
 
 ## Repository layout
@@ -15,9 +14,6 @@ This repository contains the source code and scripts for the **Hybrid Neuro-Symb
 .
 ├─ mtrpp_local.py
 ├─ requirements.txt
-├─ run_training_only.bat / .sh
-├─ run_analysis_only.bat / .sh
-├─ run_experiments.bat / .sh
 └─ scripts/
 ```
 
@@ -34,12 +30,10 @@ This repository contains the source code and scripts for the **Hybrid Neuro-Symb
 
 ## Usage
 
-Typical entry points:
+Typical workflows:
 
-- **Training:** `run_training_only.bat` / `run_training_only.sh` (or the training routines in `mtrpp_local.py`)
-- **Analysis / evaluation:** `run_analysis_only.bat` / `run_analysis_only.sh`
-- **End-to-end:** `run_experiments.bat` / `run_experiments.sh`
-- **Individual workflows:** scripts in `scripts/` (e.g. `run_evaluation.py`, `ablation_study.py`, `parameter_sensitivity.py`, `scalability_analysis.py`, `statistical_tests.py`, `comprehensive_analysis.py`, `comprehensive_analysis_part2.py`)
+- **Training / evaluation:** use the training and evaluation entry points in `mtrpp_local.py`.
+- **Individual workflows:** scripts in `scripts/` (e.g. `run_evaluation.py`, `ablation_study.py`, `parameter_sensitivity.py`, `scalability_analysis.py`, `statistical_tests.py`, `comprehensive_analysis.py`, `comprehensive_analysis_part2.py`).
 
 Refer to script headers and command-line arguments for configuration and expected inputs/outputs.
 

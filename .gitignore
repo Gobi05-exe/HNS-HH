@@ -29,6 +29,10 @@ experiments/route_plots/
 # PDFs (e.g. reference papers)
 *.pdf
 
+# Local run scripts
+*.bat
+*.sh
+
 # Archives / local artifacts
 *.zip
 *.bak
